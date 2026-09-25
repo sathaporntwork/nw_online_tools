@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NetOps Toolkit — ศูนย์รวมเครื่องมือ Network Diagnostics สำหรับ ISP / Core Network</title>
+  <meta name="description" content="แพลตฟอร์มรวมเครื่องมือ Network Diagnostics (BGP, DNS, CDN, IPv4/IPv6, Multi-location) จัดหมวดตามอาการปัญหา ค้นหาและกรองได้ สำหรับ Network Engineer">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232fe0bf'/%3E%3Cstop offset='.55' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%23ff6ac2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230e1117'/%3E%3Cg stroke='url(%23g)' stroke-width='4.5' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 44 32 22l15 22'/%3E%3Cpath d='M17 44h30'/%3E%3C/g%3E%3Ccircle cx='32' cy='22' r='5.5' fill='%232fe0bf'/%3E%3Ccircle cx='17' cy='44' r='5.5' fill='%238b5cf6'/%3E%3Ccircle cx='47' cy='44' r='5.5' fill='%23ff6ac2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css?v=1.0.12">
+  <meta name="theme-color" content="#0e1117">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+</head>
+<body>
+  <!-- Global gradient definition (ใช้ร่วมกับ progress ring และ logo) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <linearGradient id="gBrand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2fe0bf"/>
+      <stop offset="0.55" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#ff6ac2"/>
+    </linearGradient>
+  </defs></svg>
+
+  <!-- Layered background system (DESIGN-SYSTEM §3) -->
+  <div class="bg" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="bg-grid"></span>
+  </div>
+
+  <!-- Sticky glass header -->
+  <header class="site-head">
+    <div class="wrap headbar">
+      <a class="brand" href="#/" id="brandLink" aria-label="NetOps Toolkit — กลับหน้าแรก">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+          <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="#141922" stroke="url(#gBrand)" stroke-width="2"/>
+          <path d="M11 27.5 20 13l9 14.5" fill="none" stroke="url(#gBrand)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 27.5h18" fill="none" stroke="url(#gBrand)" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="20" cy="13" r="3.1" fill="#2fe0bf"/>
+          <circle cx="11" cy="27.5" r="3.1" fill="#8b5cf6"/>
+          <circle cx="29" cy="27.5" r="3.1" fill="#ff6ac2"/>
+        </svg>
+        <span class="brand-text">Net<em>Ops</em> <span class="brand-sub">Toolkit</span></span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="เปิดเมนู">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <nav class="main-nav" id="mainNav" aria-label="เมนูหลัก">
+        <button class="nav-link" type="button" data-goto="triage">อาการ &amp; Triage</button>
+        <button class="nav-link" type="button" data-goto="presets">ชุดตรวจด่วน</button>
+        <button class="nav-link" type="button" data-goto="catalog">เครื่องมือทั้งหมด</button>
+        <div class="dl-wrap" id="pinnedWrap">
+          <button class="nav-link pin-btn" id="pinnedBtn" type="button" aria-expanded="false" aria-controls="pinnedMenu" aria-label="เครื่องมือที่ปักหมุด">
+            <svg class="pin-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>
+            <span id="pinnedN">0</span>
+          </button>
+          <div class="dl-menu pinned-menu" id="pinnedMenu" role="menu" aria-label="รายการปักหมุด"></div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="mainContent">
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <span class="hero-kicker"><span class="dot"></span> ISP / Core Network · BGP · DNS · CDN · IPv4/IPv6</span>
+        <h1>เลือกเครื่องมือให้ตรงกับ <span class="grad-text">อาการที่พบ</span></h1>
+        <p class="lead">แพลตฟอร์มรวมเครื่องมือ Network Diagnostics สำหรับ Network Engineer — เริ่มจากอาการที่ลูกค้าแจ้ง แล้วเดินตาม Playbook ไปจนถึงหลักฐานที่ยื่น Provider ได้</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" type="button" data-goto="triage">เริ่มจากอาการปัญหา</button>
+          <button class="btn btn-ghost" type="button" data-goto="catalog">ดูเครื่องมือทั้งหมด</button>
+        </div>
+        <div class="stat-row" id="statRow"></div>
+      </div>
+      <div class="hero-gauge glass card">
+        <div class="ring-wrap ring-lg" id="freeRing">
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <circle class="ring-bg" cx="20" cy="20" r="16.5"/>
+            <circle class="ring-fill" cx="20" cy="20" r="16.5" stroke-dasharray="103.67" stroke-dashoffset="103.67"/>
+          </svg>
+          <span class="ring-label" id="freeRingLabel">0%</span>
+        </div>
+        <p class="gauge-cap"><b id="freeCount">0</b> / <span id="totalCount">0</span> เครื่องมือ<br><span class="meta">ใช้งานได้ฟรี 100%</span></p>
+      </div>
+    </section>
+
+    <!-- Target Launcher -->
+    <section class="section" id="launcher">
+      <div class="sec-head">
+        <span class="eyebrow">TARGET LAUNCHER</span>
+        <h2>พิมพ์ target ครั้งเดียว เปิดได้ทุกเครื่องมือ</h2>
+        <p class="sec-sub">กรอก domain / IP / ASN แล้วการ์ดเครื่องมือที่รองรับ deep-link จะแสดงปุ่ม “เปิดพร้อม target” ให้ ไม่ต้องพิมพ์ซ้ำในแต่ละเว็บ</p>
+      </div>
+      <div class="launcher glass">
+        <label class="sr-only" for="targetInput">Target (domain / IP / ASN)</label>
+        <div class="search-wrap launcher-input">
+          <svg class="in-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input id="targetInput" type="text" placeholder="example.com หรือ 1.1.1.1 หรือ AS13335" autocomplete="off" spellcheck="false">
+          <button class="icon-btn" id="targetClear" type="button" aria-label="ล้าง target" hidden>×</button>
+        </div>
+        <p class="launcher-hint" id="launcherHint">ยังไม่ได้กรอก target — เมื่อกรอกแล้วจะมีปุ่มเปิดเครื่องมือพร้อมค่าอัตโนมัติ</p>
+      </div>
+    </section>
+
+    <!-- Symptom-based triage -->
+    <section class="section" id="triage">
+      <div class="sec-head">
+        <span class="eyebrow">SYMPTOM-BASED TRIAGE</span>
+        <h2>เริ่มจากอาการที่พบ ไม่ใช่จากชื่อเครื่องมือ</h2>
+        <p class="sec-sub">เลือกอาการที่ลูกค้าหรือระบบแจ้ง ระบบจะแสดงลำดับการตรวจและเครื่องมือที่ควรรันในแต่ละขั้น พร้อม progress ให้ติ๊กว่าทำถึงไหนแล้ว</p>
+      </div>
+      <div class="sym-grid" id="symGrid"></div>
+      <div class="playbook glass" id="playbook" hidden></div>
+    </section>
+
+    <!-- Presets -->
+    <section class="section" id="presets">
+      <div class="sec-head">
+        <span class="eyebrow">QUICK START</span>
+        <h2>ชุดตรวจด่วน</h2>
+        <p class="sec-sub">ชุดเครื่องมือสำเร็จรูปตามระดับความลึกของงาน — กดหนึ่งครั้งเพื่อกรอง catalog ให้เหลือเฉพาะชุดนั้น</p>
+      </div>
+      <div class="preset-grid" id="presetGrid"></div>
+    </section>
+
+    <!-- Catalog -->
+    <section class="section" id="catalog">
+      <div class="sec-head">
+        <span class="eyebrow">TOOL CATALOG</span>
+        <h2>เครื่องมือทั้งหมด</h2>
+        <p class="sec-sub">ค้นหาด้วยชื่อหรือคำศัพท์เทคนิค (ไทย/อังกฤษ) หรือกรองตามหมวดและตัวกรองเพิ่มเติม</p>
+      </div>
+
+      <div class="toolbar glass" role="search">
+        <div class="search-wrap">
+          <svg class="in-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input id="searchInput" type="search" placeholder="ค้นหา: mtr, bgp, dnssec, propagation, rpki…" aria-label="ค้นหาเครื่องมือ" autocomplete="off">
+          <button class="icon-btn" id="searchClear" type="button" aria-label="ล้างคำค้น" hidden>×</button>
+        </div>
+        <div class="chip-row" id="catChips" role="group" aria-label="กรองตามหมวดหมู่"></div>
+        <div class="dl-wrap" id="flagWrap">
+          <button class="btn btn-ghost btn-sm" id="flagBtn" type="button" aria-expanded="false" aria-controls="flagMenu">
+            <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+            ตัวกรองเพิ่มเติม
+            <span class="badge" id="flagN" hidden>0</span>
+          </button>
+          <div class="dl-menu" id="flagMenu">
+            <label class="chk"><input type="checkbox" data-flag="ipv6"> รองรับ IPv6</label>
+            <label class="chk"><input type="checkbox" data-flag="free"> ใช้ฟรีเท่านั้น</label>
+            <label class="chk"><input type="checkbox" data-flag="tpl"> มี Deep link (เปิดพร้อม target)</label>
+            <label class="chk"><input type="checkbox" data-flag="api"> มี API / CLI</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-line">
+        <span class="result-count meta" id="resultCount">—</span>
+        <div class="active-pills" id="activePills"></div>
+        <button class="btn btn-ghost btn-sm" id="shareViewBtn" type="button" aria-label="คัดลอกลิงก์มุมมองปัจจุบัน">
+          <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+          แชร์มุมมองนี้
+        </button>
+      </div>
+
+      <div class="tool-grid" id="toolGrid"></div>
+
+      <div class="empty glass" id="emptyState" hidden>
+        <svg class="empty-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8M8.5 11h5"/></svg>
+        <h3>ไม่พบเครื่องมือที่ตรงกับเงื่อนไข</h3>
+        <p class="meta">ลองเปลี่ยนคำค้น หรือล้างตัวกรองทั้งหมดเพื่อดูรายการครบ</p>
+        <button class="btn btn-ghost" type="button" id="resetFilters">ล้างตัวกรองทั้งหมด</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap foot-in">
+      <div class="foot-brand">
+        <b>NetOps Toolkit</b> — ศูนย์รวมเครื่องมือ Network Diagnostics สำหรับ ISP / Core Network · BGP · DNS · CDN · IPv4/IPv6
+      </div>
+      <p class="meta">ลิงก์ทั้งหมดชี้ไปยังเว็บภายนอก เครื่องมือเป็นกรรมสิทธิ์ของเจ้าของแต่ละราย · ข้อมูล ณ วันที่สร้าง แนะนำให้ตรวจสอบ URL อีกครั้งเป็นระยะ · เปิดจาก file:// ได้ ไม่มี request ภายนอก และไม่ใช้ popup dialog ของ browser · รองรับ PWA — ติดตั้งลงเครื่องแล้วเปิดออฟไลน์ได้ (service worker ทำงานเมื่อเปิดผ่าน http/https เท่านั้น)</p>
+      <p class="meta kbd-hint">คีย์ลัด: <kbd>/</kbd> ค้นหา · <kbd>t</kbd> target · <kbd>c</kbd> catalog · <kbd>s</kbd> ชุดตรวจ · <kbd>p</kbd> playbooks · <kbd>?</kbd> ดูทั้งหมด</p>
+    </div>
+  </footer>
+
+  <!-- Custom modal (แทน alert/confirm/prompt — DESIGN-SYSTEM §10) -->
+  <div class="modal-root" id="modalRoot" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="modalTitle" id="modalBox" tabindex="-1">
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toasts (แทน alert สำหรับ feedback สั้น ๆ) -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="js/data.js?v=1.0.12"></script>
+  <script src="js/app.js?v=1.0.12"></script>
+  <script src="js/pwa.js?v=1.0.12"></script>
+</body>
+</html>

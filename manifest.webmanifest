@@ -1,0 +1,15 @@
+{
+  "name": "NetOps Toolkit",
+  "short_name": "NetOps",
+  "description": "ศูนย์รวมเครื่องมือ Network Diagnostics สำหรับ ISP / Core Network — จัดหมวดตามอาการปัญหา ค้นหาและกรองได้",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
+  "icons": [
+    { "src": "icons/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}
