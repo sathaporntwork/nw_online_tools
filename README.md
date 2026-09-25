@@ -4,7 +4,7 @@
 > จัดระเบียบการแก้ไขปัญหาตาม **อาการที่พบจริง (Symptom-First Triage)** พร้อม Decision Flow และ Step-by-Step Playbooks  
 > **Static Web Application 100%** — ใช้งานแบบ Zero-Dependency, เปิดตรงผ่าน `file://` ได้ทันที, รองรับ PWA ใช้งานออฟไลน์ และรับประกัน Console สะอาด 0 Error  
 
-[![Version](https://img.shields.io/badge/version-v1.0.12-2fe0bf.svg)](#)
+[![Version](https://img.shields.io/badge/version-v1.0.13-2fe0bf.svg)](#)
 [![Stack](https://img.shields.io/badge/tech-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-8b5cf6.svg)](#)
 [![PWA](https://img.shields.io/badge/pwa-offline--first-ff6ac2.svg)](#)
 [![Architecture](https://img.shields.io/badge/dependencies-0%20(zero)-brightgreen.svg)](#)

@@ -834,7 +834,7 @@ window.NT_DATA = (function () {
   ];
 
   return {
-    meta: { brand: 'NetOps Toolkit', version: '1.0.12' },
+    meta: { brand: 'NetOps Toolkit', version: '1.0.13' },
     categories: categories,
     symptoms: symptoms,
     presets: presets,

@@ -1,7 +1,7 @@
 # 🚀 DEPLOY — NetOps Toolkit Production Guide
 
 > **Target Architecture**: GitHub Pages (Static Hosting) + Cloudflare (DNS, Edge SSL/TLS, CDN)  
-> **Target Release**: NetOps Toolkit v1.0.12  
+> **Target Release**: NetOps Toolkit v1.0.13  
 > **Key Characteristics**: 100% Static, Zero Build Step, Zero Server-Side Runtime, Full PWA Offline Capability  
 
 ---
@@ -61,7 +61,7 @@ node tests/data.test.js
 git init
 git add index.html css/ js/ icons/ manifest.webmanifest sw.js tests/
 git add README.md DEPLOY.md DESIGN-SYSTEM.md PRD.md ARCHITECTURE.md HANDOFF.md
-git commit -m "Release NetOps Toolkit v1.0.12"
+git commit -m "Release NetOps Toolkit v1.0.13"
 
 # สร้าง Branch main และเชื่อมต่อ Remote Repo
 git branch -M main
@@ -151,8 +151,8 @@ GitHub Pages จะออกใบรับรอง SSL/TLS (Let's Encrypt Cert
    - ตรวจสอบว่า Status แสดงเป็น **`activated and is running`**
    - Scope ต้องตรงกับ Base URL ของเว็บ
 3. **Cache Storage**: แถบ **Application → Cache Storage**
-   - ต้องพบ Cache ชื่อ **`netops-v1.0.12`**
-   - บรรจุไฟล์ครบทั้ง 8 รายการ ได้แก่ `./`, `./index.html`, `./css/style.css?v=1.0.12`, `./js/data.js?v=1.0.12`, `./js/app.js?v=1.0.12`, `./js/pwa.js?v=1.0.12`, `./manifest.webmanifest`, `./icons/icon.svg`
+   - ต้องพบ Cache ชื่อ **`netops-v1.0.13`**
+   - บรรจุไฟล์ครบทั้ง 8 รายการ ได้แก่ `./`, `./index.html`, `./css/style.css?v=1.0.13`, `./js/data.js?v=1.0.13`, `./js/app.js?v=1.0.13`, `./js/pwa.js?v=1.0.13`, `./manifest.webmanifest`, `./icons/icon.svg`
 4. **Offline Capability Test**:
    - ใน DevTools ไปที่แถบ **Network** → ติ๊กเลือก **Offline**
    - กดปุ่ม Reload หน้าเว็บ (Ctrl+R หรือ F5)

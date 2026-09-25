@@ -6,7 +6,7 @@
   <title>NetOps Toolkit — ศูนย์รวมเครื่องมือ Network Diagnostics สำหรับ ISP / Core Network</title>
   <meta name="description" content="แพลตฟอร์มรวมเครื่องมือ Network Diagnostics (BGP, DNS, CDN, IPv4/IPv6, Multi-location) จัดหมวดตามอาการปัญหา ค้นหาและกรองได้ สำหรับ Network Engineer">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232fe0bf'/%3E%3Cstop offset='.55' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%23ff6ac2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230e1117'/%3E%3Cg stroke='url(%23g)' stroke-width='4.5' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 44 32 22l15 22'/%3E%3Cpath d='M17 44h30'/%3E%3C/g%3E%3Ccircle cx='32' cy='22' r='5.5' fill='%232fe0bf'/%3E%3Ccircle cx='17' cy='44' r='5.5' fill='%238b5cf6'/%3E%3Ccircle cx='47' cy='44' r='5.5' fill='%23ff6ac2'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="css/style.css?v=1.0.12">
+  <link rel="stylesheet" href="css/style.css?v=1.0.13">
   <meta name="theme-color" content="#0e1117">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon.svg">
@@ -78,6 +78,7 @@
         <div class="stat-row" id="statRow"></div>
       </div>
       <div class="hero-gauge glass card">
+        <span class="gauge-kicker">เครื่องมือใช้งานฟรี</span>
         <div class="ring-wrap ring-lg" id="freeRing">
           <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
             <circle class="ring-bg" cx="20" cy="20" r="16.5"/>
@@ -85,7 +86,7 @@
           </svg>
           <span class="ring-label" id="freeRingLabel">0%</span>
         </div>
-        <p class="gauge-cap"><b id="freeCount">0</b> / <span id="totalCount">0</span> เครื่องมือ<br><span class="meta">ใช้งานได้ฟรี 100%</span></p>
+        <p class="gauge-cap"><b id="freeCount">0</b> / <span id="totalCount">0</span> เครื่องมือ<br><span class="meta">เปิดให้ใช้งานฟรี ไม่มีค่าบริการ</span></p>
       </div>
     </section>
 
@@ -183,7 +184,7 @@
       <div class="foot-brand">
         <b>NetOps Toolkit</b> — ศูนย์รวมเครื่องมือ Network Diagnostics สำหรับ ISP / Core Network · BGP · DNS · CDN · IPv4/IPv6
       </div>
-      <p class="meta">ลิงก์ทั้งหมดชี้ไปยังเว็บภายนอก เครื่องมือเป็นกรรมสิทธิ์ของเจ้าของแต่ละราย · ข้อมูล ณ วันที่สร้าง แนะนำให้ตรวจสอบ URL อีกครั้งเป็นระยะ · เปิดจาก file:// ได้ ไม่มี request ภายนอก และไม่ใช้ popup dialog ของ browser · รองรับ PWA — ติดตั้งลงเครื่องแล้วเปิดออฟไลน์ได้ (service worker ทำงานเมื่อเปิดผ่าน http/https เท่านั้น)</p>
+      <p class="meta">แพลตฟอร์มศูนย์รวมเครื่องมือ Network Diagnostics แบบ Zero-Dependency · เครื่องมือภายนอกทั้งหมดเป็นกรรมสิทธิ์ของผู้พัฒนาแต่ละราย · รองรับการติดตั้งแบบ PWA และเปิดใช้งานแบบออฟไลน์</p>
       <p class="meta kbd-hint">คีย์ลัด: <kbd>/</kbd> ค้นหา · <kbd>t</kbd> target · <kbd>c</kbd> catalog · <kbd>s</kbd> ชุดตรวจ · <kbd>p</kbd> playbooks · <kbd>?</kbd> ดูทั้งหมด</p>
     </div>
   </footer>
@@ -199,8 +200,8 @@
   <!-- Toasts (แทน alert สำหรับ feedback สั้น ๆ) -->
   <div class="toasts" id="toasts" aria-live="polite"></div>
 
-  <script src="js/data.js?v=1.0.12"></script>
-  <script src="js/app.js?v=1.0.12"></script>
-  <script src="js/pwa.js?v=1.0.12"></script>
+  <script src="js/data.js?v=1.0.13"></script>
+  <script src="js/app.js?v=1.0.13"></script>
+  <script src="js/pwa.js?v=1.0.13"></script>
 </body>
 </html>

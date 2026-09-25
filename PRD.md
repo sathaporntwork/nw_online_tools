@@ -1,7 +1,7 @@
 # 📋 PRD — NetOps Toolkit (Product Requirements Document)
 
 > **Document Version**: 1.0.0  
-> **Target Release**: NetOps Toolkit v1.0.12+  
+> **Target Release**: NetOps Toolkit v1.0.13+  
 > **Status**: Approved / Production  
 > **Target Audience**: Network Engineers, NOC Operators, Core Routing Engineers, Systems Architects  
 
