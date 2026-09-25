@@ -46,7 +46,9 @@
     gauge: '<path d="M4.5 17a9 9 0 1 1 15 0"/><path d="M12 14l4-4"/><circle cx="12" cy="14" r="1.4"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13.5 9 5 9-5"/>',
     arrow: '<path d="M12 4v14M6 13l6 6 6-6"/>',
-    pin: '<path d="M6 3h12v18l-6-4.5L6 21z"/>'
+    pin: '<path d="M6 3h12v18l-6-4.5L6 21z"/>',
+    anchor: '<circle cx="12" cy="5" r="3"/><path d="M12 8v13M5 12H2a10 10 0 0 0 20 0h-3M9 12h6"/>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
   };
 
   function svgIcon(key) {

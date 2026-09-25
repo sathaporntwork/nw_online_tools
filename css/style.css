@@ -741,6 +741,9 @@ kbd {
 .acc-dns    { --acc: 251, 191, 36; }
 .acc-http   { --acc: 255, 106, 194; }
 .acc-cli    { --acc: 166, 176, 192; }
+.acc-ix     { --acc: 56, 189, 248; }
+.acc-cable  { --acc: 14, 165, 233; }
+.acc-rep    { --acc: 249, 115, 22; }
 
 /* Icon tile (§5.4) — SVG ถูก CSS กำหนดขนาดชัดเจน */
 .icon-tile {

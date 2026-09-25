@@ -5,14 +5,14 @@
  */
 'use strict';
 
-var CACHE = 'netops-v1.0.13';
+var CACHE = 'netops-v1.0.14';
 var SHELL = [
   './',
   './index.html',
-  './css/style.css?v=1.0.13',
-  './js/data.js?v=1.0.13',
-  './js/app.js?v=1.0.13',
-  './js/pwa.js?v=1.0.13',
+  './css/style.css?v=1.0.14',
+  './js/data.js?v=1.0.14',
+  './js/app.js?v=1.0.14',
+  './js/pwa.js?v=1.0.14',
   './manifest.webmanifest',
   './icons/icon.svg'
 ];

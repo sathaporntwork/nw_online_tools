@@ -19,7 +19,9 @@ window.NT_DATA = (function () {
     { id: 'dns',    name: 'DNS & DNSSEC',                  desc: 'Resolution, propagation, delegation และ DNSSEC chain',      icon: 'dns'    },
     { id: 'http',   name: 'HTTP / TLS / Web Perf',         desc: 'เว็บเข้าได้ไหม ช้าตรงไหน TLS ถูกต้องไหม',                  icon: 'lock'    },
     { id: 'cli',    name: 'Local CLI & Packet Analysis',   desc: 'รันบน server/เครื่องเอง ได้หลักฐานระดับ packet/session',   icon: 'term'    },
-    { id: 'ix',     name: 'IX / Peering',                   desc: 'Looking glass ระดับ IX, ข้อมูล peering และ IXP directory ภูมิภาค', icon: 'pin' }
+    { id: 'ix',     name: 'IX / Peering',                   desc: 'Looking glass ระดับ IX, ข้อมูล peering และ IXP directory ภูมิภาค', icon: 'pin' },
+    { id: 'cable',  name: 'Submarine Cable & Transit',     desc: 'แผนที่สายเคเบิลใต้น้ำ Landing Station และเส้นทางทรานซิตระหว่างประเทศ', icon: 'anchor' },
+    { id: 'rep',    name: 'IP Reputation & Blacklist',     desc: 'ตรวจจับ IP ติดบัญชีดำ สแปมเมล Abuse และ Captcha/Block', icon: 'shield' }
   ];
 
   var symptoms = [
@@ -233,21 +235,21 @@ window.NT_DATA = (function () {
       eyebrow: 'เริ่มต้น',
       name: 'Quick investigation',
       desc: 'เริ่มจาก complaint ทั่วไป — รันได้ในไม่กี่นาที ไม่ต้องติดตั้งอะไรเพิ่ม',
-      tools: ['globalping', 'bgp-tools', 'ripestat', 'dnschecker', 'dnsviz', 'ssllabs', 'cloudflare-radar', 'bunny-tools']
+      tools: ['globalping', 'bgp-tools', 'ripestat', 'dnschecker', 'dnsviz', 'ssllabs', 'cloudflare-radar', 'bunny-tools', 'spamhaus']
     },
     {
       id: 'th',
       eyebrow: 'สายไทย',
       name: 'Thai peering & intl link',
       desc: 'เคสเฉพาะทางไทย — cross-ISP (AIS/3BB/True) และสงสัย international link — ครอบคลุม playbook ทั้งสองอาการ',
-      tools: ['globalping', 'looking-house', 'pch-lg', 'peeringdb', 'thix-pdb', 'bgp-tools', 'cloudflare-radar', 'mtr']
+      tools: ['globalping', 'looking-house', 'pch-lg', 'peeringdb', 'thix-pdb', 'bknix', 'submarine-cable-map', 'bgp-tools', 'cloudflare-radar', 'mtr']
     },
     {
       id: 'deep',
       eyebrow: 'เชิงลึก',
       name: 'Deep investigation',
       desc: 'เก็บหลักฐานเชิงลึก — historical BGP, controlled measurement, packet/session level',
-      tools: ['ripe-atlas', 'routeviews', 'peeringdb', 'wireshark', 'zeek', 'arkime', 'mtr', 'dig', 'curl']
+      tools: ['ripe-atlas', 'routeviews', 'peeringdb', 'wireshark', 'zeek', 'arkime', 'mtr', 'dig', 'curl', 'ioda']
     }
   ];
 
@@ -549,7 +551,7 @@ window.NT_DATA = (function () {
       how: 'เปิดหน้า IX ดูรายชื่อ network members, ช่วง IP และ policy ของ IX แล้วข้ามไปหน้า network แต่ละตัวเพื่อดู peering contact',
       good: ['รายชื่อสมาชิกและ policy อัปเดตโดยผู้ใช้จริง', 'เชื่อมต่อข้อมูลกับ ASN แต่ละเจ้าได้ทันที'],
       bad: ['ข้อมูล self-reported จำนวนสมาชิกอาจไม่ครบ', 'เฉพาะ TH-IX — IX อื่นในไทย (BBIX, AMS-IX Bangkok) ต้องค้นแยกใน PeeringDB'],
-      related: ['peeringdb', 'ixp-tracker', 'pch-lg']
+      related: ['peeringdb', 'bknix', 'pch-lg']
     },
     {
       id: 'cloudflare-radar',
@@ -566,7 +568,7 @@ window.NT_DATA = (function () {
       how: 'เปิด Outage Center หรือกราฟคุณภาพอินเทอร์เน็ตตามประเทศ/ASN แล้วเทียบกับช่วงเวลาเกิดเหตุ',
       good: ['มุมภาพรวมระดับประเทศ/ASN จาก traffic จริง', 'มีทั้ง routing, RPKI และ application-layer data'],
       bad: ['เห็นภาพ macro จาก traffic ของ Cloudflare เป็นหลัก', 'ไม่ใช่เครื่องมือตรวจ target เจาะจงรายตัว'],
-      related: ['bgp-tools', 'ripestat', 'globalping']
+      related: ['bgp-tools', 'ioda', 'ripestat']
     },
     {
       id: 'dnsviz',
@@ -830,11 +832,265 @@ window.NT_DATA = (function () {
       good: ['มีบน Windows ทุกเครื่อง ไม่ต้องติดตั้งเพิ่ม', 'รายงาน DNS/route/port ในคำสั่งเดียว'],
       bad: ['ข้อมูลละเอียดไม่เท่า mtr/curl', 'เหมาะกับ quick check มากกว่า investigation ลึก'],
       related: ['tcping', 'curl', 'mtr']
+    },
+    {
+      id: 'ioda',
+      name: 'IODA (Internet Outage Detection)',
+      url: 'https://ioda.inetintel.cc.gatech.edu/',
+      tpl: 'https://ioda.inetintel.cc.gatech.edu/asn/{t}',
+      tplTypes: ['asn'],
+      cat: ['outage', 'bgp'],
+      sym: ['wide-outage', 'bgp', 'intl-link'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'ioda caida georgia tech outage detection darknet telescope routing anomaly',
+      desc: 'ระบบตรวจจับ Internet Outage ระดับประเทศและ ASN แบบ Near Real-time จาก Georgia Tech / CAIDA ผ่าน BGP, Active Probing และ Darknet',
+      when: 'เมื่อสงสัยว่าเกิดเน็ตดับระดับประเทศ เหตุการณ์แผ่นดินไหว เคเบิลขาด หรือ ASN โดนตัดสัญญาณเป็นวงกว้าง',
+      how: 'กรอก ASN (เช่น AS13335) หรือเลือกดูเป็นรายประเทศ (Thailand) เพื่อดูกราฟ BGP, Active Probing และ Telescope ควบคู่กัน',
+      good: [
+        'รวม 3 มิติข้อมูลอิสระ (BGP, Ping Probing, Darknet) เพื่อยืนยันความถูกต้อง',
+        'แม่นยำสูงสำหรับการตรวจ Macro Outage ระดับภูมิภาคและประเทศ'
+      ],
+      bad: [
+        'ไม่เหมาะกับการตรวจปัญหารายย่อยหรือเคสระดับ Local Access'
+      ],
+      related: ['cloudflare-radar', 'ripe-atlas', 'bgp-tools']
+    },
+    {
+      id: 'thousandeyes-outages',
+      name: 'ThousandEyes Global Outages',
+      url: 'https://www.thousandeyes.com/outages/',
+      cat: ['outage'],
+      sym: ['wide-outage', 'web-block', 'intl-link'],
+      ip: 'dual',
+      access: 'web',
+      price: 'free',
+      keys: 'thousandeyes cisco outage global map cloud cdn transit provider',
+      desc: 'แผนที่ Global Internet Outages จาก Cisco ThousandEyes แสดงสถานะขัดข้องของ Cloud Providers, CDNs, ISPs และ Transit Networks ทั่วโลก',
+      when: 'เมื่อต้องการตรวจสอบว่า Cloud ระดับโลก (AWS, Azure, GCP), CDN (Cloudflare, Akamai) หรือ Tier-1 Transit กำลังมีปัญหาหรือไม่',
+      how: 'เปิดหน้า Outage Map เพื่อดูเส้นทางที่เกิดปัญหาแบบสด ๆ พร้อมรายละเอียด ASN, Provider และพื้นที่ที่ได้รับผลกระทบ',
+      good: [
+        'มีข้อมูลฝั่ง Application, Cloud และ ISP Transit ทั่วโลกแบบ Real-time',
+        'มีไทม์ไลน์และจำนวน Interface ที่ดาวน์ให้เห็นชัดเจน'
+      ],
+      bad: [
+        'หน้าเว็บฟรีให้ข้อมูลสรุปภาพรวม ไม่สามารถดู Hop-by-hop เชิงลึกได้เท่ากับเวอร์ชัน Enterprise'
+      ],
+      related: ['cloudflare-radar', 'ioda', 'ripe-atlas']
+    },
+    {
+      id: 'nlnog-ring',
+      name: 'NLNOG RING Looking Glass',
+      url: 'https://lg.ring.nlnog.net/',
+      cat: ['bgp', 'multi'],
+      sym: ['bgp', 'latency', 'th-routing'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'nlnog ring looking glass bgp ping traceroute community network operators',
+      desc: 'Looking Glass แบบรวมศูนย์จากเซิร์ฟเวอร์กว่า 600+ โหนด ของผู้ให้บริการเครือข่ายกว่า 400 รายทั่วโลกในโครงการ NLNOG RING',
+      when: 'เมื่อต้องการสั่ง ping, traceroute หรือ query BGP จากมุมมองของ ISP หรือผู้ให้บริการในทวีปอื่นเข้ามายังเครือข่ายของเรา',
+      how: 'เลือก Node ต้นทางที่ต้องการ แล้วพิมพ์คำสั่ง ping / traceroute / bgp ตามด้วย IP หรือ Target ปลายทาง',
+      good: [
+        'มีจุดตรวจครอบคลุม ISP จริงทั่วโลกกว่า 400 เครือข่าย',
+        'ผลลัพธ์เป็นมุมมองจริงจาก Core Router / Server ของเครือข่ายผู้เข้าร่วม'
+      ],
+      bad: [
+        'บางโหนดอาจออฟไลน์หรือถูกจำกัด Rate Limit ตามนโยบายของเจ้าของเครื่อง'
+      ],
+      related: ['looking-house', 'globalping', 'bgp-tools']
+    },
+    {
+      id: 'caida-asrank',
+      name: 'CAIDA AS Rank',
+      url: 'https://asrank.caida.org/',
+      tpl: 'https://asrank.caida.org/asns/{t}',
+      tplTypes: ['asn'],
+      cat: ['bgp'],
+      sym: ['bgp', 'intl-link'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'caida as rank transit hierarchy customer cone peering upstream topology',
+      desc: 'ระบบจัดอันดับและวิเคราะห์โครงสร้างความสัมพันธ์ของ ASN ทั่วโลก โดย CAIDA วิเคราะห์ Transit Hierarchy, Customer Cone และ Peer',
+      when: 'เมื่อต้องการศึกษาว่า ASN ปลายทางรับ Transit จากใครบ้าง หรือมีขนาด Customer Cone ใหญ่แค่ไหน',
+      how: 'ค้นหาด้วยหมายเลข ASN (เช่น AS13335 หรือ AS9930) เพื่อดูโครงสร้าง Transit Provider และ Customer Cone แบบละเอียด',
+      good: [
+        'คำนวณ Customer Cone และจัดอันดับ Global ASN อย่างเป็นวิทยาศาสตร์',
+        'ช่วยวิเคราะห์ความสำคัญและระดับ Tier ของผู้ให้บริการได้ชัดเจน'
+      ],
+      bad: [
+        'ข้อมูลอัปเดตเป็นรอบ (Periodic Update) ไม่ใช่ระดับวินาที'
+      ],
+      related: ['bgp-tools', 'ripestat', 'peeringdb']
+    },
+    {
+      id: 'bknix',
+      name: 'BKNIX (Bangkok Neutral Internet Exchange)',
+      url: 'https://bknix.co.th/',
+      cat: ['ix'],
+      sym: ['th-routing', 'latency'],
+      ip: 'dual',
+      access: 'web',
+      price: 'free',
+      keys: 'bknix bangkok neutral internet exchange thailand peering ix ixp route server th-ix',
+      desc: 'ศูนย์แลกเปลี่ยนข้อมูลอินเทอร์เน็ตที่เป็นกลางแห่งแรกของไทย แลกเปลี่ยนทราฟฟิกภายในประเทศระหว่าง ISPs, CDNs และ Content Providers',
+      when: 'เมื่อต้องการตรวจสอบสถานะการเชื่อมต่อ peering, รายชื่อสมาชิก (Members), Looking Glass และสถิติทราฟฟิกในประเทศไทย',
+      how: 'เปิดดูรายชื่อผู้เข้าร่วม Peering และสถานะ Route Server เพื่อดูว่าผู้ให้บริการที่เรามีปัญหาแลกเปลี่ยนทราฟฟิกที่ BKNIX หรือไม่',
+      good: [
+        'เป็นศูนย์กลางการแลกเปลี่ยนทราฟฟิกหลักของไทยที่มี Content Provider รายใหญ่ (Google, Meta, Netflix ฯลฯ) ร่วมอยู่',
+        'ให้ข้อมูลทราฟฟิกและสถานะเครือข่ายภายในประเทศที่แม่นยำ'
+      ],
+      bad: [
+        'ฟังก์ชัน Looking Glass บนเว็บอาจต้องดูผ่าน PeeringDB หรือหน้าสมาชิกทางการ'
+      ],
+      related: ['thix-pdb', 'peeringdb', 'decix-lg']
+    },
+    {
+      id: 'zonemaster',
+      name: 'Zonemaster DNS Health Check',
+      url: 'https://zonemaster.net/',
+      tpl: 'https://zonemaster.net/en/result/{t}',
+      tplTypes: ['domain'],
+      cat: ['dns'],
+      sym: ['dns-issues', 'web-block'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'zonemaster afnic iis dns health check delegation dnssec consistency nameserver',
+      desc: 'เครื่องมือตรวจสอบคุณภาพและสุขภาวะ DNS ตามมาตรฐาน IETF โดย AFNIC (.fr) และ The Swedish Internet Foundation (.se)',
+      when: 'เมื่อต้องการวิเคราะห์การตั้งค่า Authoritative DNS, ปัญหา Delegation, การตั้งค่า Glue Records และความถูกต้องของ DNSSEC',
+      how: 'พิมพ์ชื่อโดเมน (Domain Name) แล้วกด Check ระบบจะรันการตรวจสอบกว่า 50 รายการและจำแนกความรุนแรง (Notice, Warning, Error)',
+      good: [
+        'รายงานผลละเอียด อิงมาตรฐาน RFC อย่างเข้มงวดที่สุดตัวหนึ่งในปัจจุบัน',
+        'ตรวจครอบคลุมทั้ง IPv4, IPv6, DNSSEC, Delegation, Connectivity และ Consistency'
+      ],
+      bad: [
+        'การทดสอบใช้เวลาประมวลผลประมาณ 10–20 วินาทีต่อโดเมน'
+      ],
+      related: ['dnsviz', 'intodns', 'dnschecker']
+    },
+    {
+      id: 'submarine-cable-map',
+      name: 'Submarine Cable Map',
+      url: 'https://www.submarinecablemap.com/',
+      cat: ['cable'],
+      sym: ['intl-link', 'latency', 'wide-outage'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'submarine cable map telegeography underwater fiber cable landing station international link transit aag aae1 apg sjc smw',
+      desc: 'แผนที่สายเคเบิลใต้น้ำทั่วโลกแบบอินเทอร์แอคทีฟโดย TeleGeography แสดงเส้นทางเคเบิล จุดขึ้นฝั่ง (Landing Station) และเจ้าของสายส่ง',
+      when: 'เมื่อเกิดเหตุท่อเน็ตต่างประเทศช้าหรือล่ม (สงสัย Cable Cut) เพื่อดูว่าเคเบิลเส้นที่รับผิดชอบพาดผ่านพื้นที่ไหน และมี Landing Station ในไทยที่ใด (สงขลา, ระยอง, ชลบุรี, สตูล)',
+      how: 'ค้นหาชื่อสายเคเบิล (เช่น AAG, APG, SJC2, AAE-1) หรือคลิกเลือกดูประเทศไทยเพื่อดูทุกสายที่เชื่อมต่อออกต่างประเทศ',
+      good: [
+        'อัปเดตข้อมูลสายเคเบิลใต้น้ำทั่วโลกครบถ้วนที่สุด',
+        'เห็นภาพเส้นทางกายภาพ (Physical Topology) ชัดเจน เชื่อมโยงกับเหตุแผ่นดินไหว/ภัยธรรมชาติใต้ทะเลได้'
+      ],
+      bad: [
+        'แสดงข้อมูลระดับ Physical Route แต่ไม่แสดงสถานะการขาด/ซ่อมแบบ Real-time บนแผนที่'
+      ],
+      related: ['infrapedia', 'cloudflare-radar', 'globalping']
+    },
+    {
+      id: 'infrapedia',
+      name: 'Infrapedia Global Infrastructure',
+      url: 'https://www.infrapedia.com/',
+      cat: ['cable', 'ix'],
+      sym: ['intl-link', 'wide-outage', 'th-routing'],
+      ip: 'dual',
+      access: 'web',
+      price: 'free',
+      keys: 'infrapedia global infrastructure data center submarine cable terrestrial fiber ixp cloud map',
+      desc: 'แผนที่โครงสร้างพื้นฐานโทรคมนาคมระดับโลก รวมสายเคเบิลใต้น้ำ, เส้นทางใยแก้วนำแสงบนบก (Terrestrial Fiber), Data Centers และจุด IXP',
+      when: 'เมื่อต้องการตรวจสอบเส้นทางโครงข่ายทั้งบนบกและใต้น้ำ ข้อมูล Data Center และจุดเชื่อมต่อของแต่ละผู้ให้บริการ',
+      how: 'ใช้ตัวกรองด้านซ้ายเลือกดู Submarine Cables, Terrestrial Fiber หรือ Data Centers แล้วคลิกสำรวจพื้นที่ในภูมิภาคเอเชียตะวันออกเฉียงใต้',
+      good: [
+        'รวมโครงสร้างพื้นฐานทั้งบกและน้ำไว้ในแผนที่เดียว',
+        'เห็นภาพรวมการเชื่อมต่อระหว่าง Data Center และสถานีเคเบิล'
+      ],
+      bad: [
+        'กราฟิกบนแผนที่มีรายละเอียดสูง อาจกินทรัพยากรเครื่องในการประมวลผล'
+      ],
+      related: ['submarine-cable-map', 'peeringdb', 'bknix']
+    },
+    {
+      id: 'spamhaus',
+      name: 'Spamhaus IP & Domain Lookup',
+      url: 'https://check.spamhaus.org/',
+      tpl: 'https://check.spamhaus.org/?target={t}',
+      tplTypes: ['domain', 'ipv4'],
+      cat: ['rep'],
+      sym: ['web-block', 'dns-issues'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'spamhaus ip domain reputation blacklist sbl xbl pbl blocklist spam mail reject captcha',
+      desc: 'ฐานข้อมูลตรวจสอบสถานะบัญชีดำ (Blacklist) ของ IP และ Domain อันดับหนึ่งของโลก สำหรับตรวจสอบ SBL, XBL, CSS และ PBL',
+      when: 'เมื่อลูกค้าหรือบริการแจ้งว่าส่งอีเมลไม่ผ่าน โดนบล็อก หรือเชื่อมต่อบางระบบแล้วถูกตัดทิ้งเนื่องจาก IP ติดแบล็กลิสต์',
+      how: 'กรอก IP address หรือชื่อโดเมนเพื่อตรวจสอบสถานะ หากพบว่าติดลิสต์ จะมีเหตุผลและขั้นตอนการขอยกเลิก (Delist request) กำกับไว้',
+      good: [
+        'เป็นมาตรฐานที่องค์กรและผู้ให้บริการ Mail/Security ทั่วโลกใช้อ้างอิง',
+        'มีคำแนะนำในการ Delist ที่ชัดเจนเป็นมาตรฐาน'
+      ],
+      bad: [
+        'จำกัดความถี่ในการค้นหาผ่านหน้าเว็บฟรี'
+      ],
+      related: ['talos', 'abuseipdb', 'netforge']
+    },
+    {
+      id: 'talos',
+      name: 'Cisco Talos Intelligence',
+      url: 'https://talosintelligence.com/reputation_center',
+      tpl: 'https://talosintelligence.com/reputation_center/lookup?search={t}',
+      tplTypes: ['domain', 'ipv4', 'ipv6'],
+      cat: ['rep'],
+      sym: ['web-block'],
+      ip: 'dual',
+      access: 'web',
+      price: 'free',
+      keys: 'cisco talos intelligence ip domain reputation threat score spam level blacklist web category',
+      desc: 'ศูนย์ข้อมูล Threat Intelligence ของ Cisco ตรวจสอบชื่อเสียง (Reputation) ของ IP และ Domain, ปริมาณสแปม และ Threat Category',
+      when: 'เมื่อต้องการตรวจสอบคะแนนความน่าเชื่อถือ (Good / Neutral / Poor) ของ IP/Prefix เพื่อดูว่าเสี่ยงต่อการโดนไฟร์วอลล์ระดับโลกบล็อกหรือไม่',
+      how: 'กรอก IP, Subnet หรือ Domain ในช่องค้นหาเพื่อดูค่า Reputation, ประวัติการส่ง Email Volume และการจัดหมวดหมู่ภัยคุกคาม',
+      good: [
+        'ฐานข้อมูลขนาดใหญ่จาก Cisco Security Products ทั่วโลก',
+        'แสดงแนวโน้มปริมาณทราฟฟิก (Volume Spike) ย้อนหลัง'
+      ],
+      bad: [
+        'การขอทบทวนคะแนนชื่อเสียงต้องล็อกอินบัญชี Cisco'
+      ],
+      related: ['spamhaus', 'abuseipdb', 'cloudflare-radar']
+    },
+    {
+      id: 'abuseipdb',
+      name: 'AbuseIPDB',
+      url: 'https://www.abuseipdb.com/',
+      tpl: 'https://www.abuseipdb.com/check/{t}',
+      tplTypes: ['ipv4', 'ipv6'],
+      cat: ['rep'],
+      sym: ['web-block'],
+      ip: 'dual',
+      access: 'web+api',
+      price: 'free',
+      keys: 'abuseipdb ip reputation report abuse confidence score port scan attack brute force ddos hacker',
+      desc: 'ฐานข้อมูลชุมชนรายงานพฤติกรรมไม่พึงประสงค์ของ IP (Port Scanning, Brute Force, Hacking, Spam, DDoS) พร้อมคะแนน Abuse Confidence Score',
+      when: 'เมื่อต้องการตรวจสอบว่า IP ที่มีปัญหาเคยมีประวัติถูกรายงานว่าทำการโจมตีหรือมีพฤติกรรมประหลาดในรอบ 30–90 วันหรือไม่',
+      how: 'กรอก IP address เพื่อดูประวัติการรายงานจากผู้ดูแลระบบทั่วโลก คะแนนความเสี่ยง และประเภทของการโจมตี',
+      good: [
+        'ข้อมูลสดใหม่จากรายงานของ Sysadmin และ Firewall ทั่วโลก',
+        'มี API สำหรับนำไปตรวจเช็คแบบอัตโนมัติ'
+      ],
+      bad: [
+        'ข้อมูลเกิดจากการรายงานของชุมชน อาจมี False Positive ในบางกรณี'
+      ],
+      related: ['talos', 'spamhaus', 'check-host']
     }
   ];
 
   return {
-    meta: { brand: 'NetOps Toolkit', version: '1.0.13' },
+    meta: { brand: 'NetOps Toolkit', version: '1.0.14' },
     categories: categories,
     symptoms: symptoms,
     presets: presets,

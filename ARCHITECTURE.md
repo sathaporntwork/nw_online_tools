@@ -1,7 +1,7 @@
 # 🏗️ System Architecture — NetOps Toolkit
 
 > **Document Version**: 1.0.0  
-> **System Version**: v1.0.13  
+> **System Version**: v1.0.14  
 > **Architecture Pattern**: Zero-Dependency Static SPA + Offline-First Service Worker  
 > **Conformance**: Dark Glassmorphism Universal Specification (`DESIGN-SYSTEM.md`)
 
@@ -44,11 +44,11 @@ graph TD
 
     subgraph Service Worker ["Service Worker Subsystem (HTTP/HTTPS Only)"]
         SW["sw.js (Lifecycle Manager)"]
-        CACHE[("Cache Storage: netops-v1.0.13")]
+        CACHE[("Cache Storage: netops-v1.0.14")]
     end
 
     subgraph External Systems ["External World"]
-        TOOLS["33 External Diagnostic Tools (Web / Looking Glass / API)"]
+        TOOLS["44 External Diagnostic Tools (Web / Looking Glass / API)"]
     end
 
     HTML --> CSS
@@ -195,7 +195,7 @@ sequenceDiagram
     autonumber
     actor User as User Browser
     participant SW as Service Worker (sw.js)
-    participant Cache as Cache Storage (netops-v1.0.13)
+    participant Cache as Cache Storage (netops-v1.0.14)
     participant Net as Network (Origin Host)
 
     User->>SW: Fetch Request (GET Same-Origin)

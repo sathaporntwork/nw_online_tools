@@ -1,7 +1,7 @@
 # 📋 PRD — NetOps Toolkit (Product Requirements Document)
 
 > **Document Version**: 1.0.0  
-> **Target Release**: NetOps Toolkit v1.0.13+  
+> **Target Release**: NetOps Toolkit v1.0.14+  
 > **Status**: Approved / Production  
 > **Target Audience**: Network Engineers, NOC Operators, Core Routing Engineers, Systems Architects  
 
@@ -81,7 +81,7 @@
 - **FR-3.2**: เมื่อคลิก Preset ระบบต้องฟิลเตอร์ Tool Catalog ทันที พร้อมแสดง Active Filter Tag ที่สามารถกดล้างออกได้
 
 ### FR-4: Multi-Facet Catalog & Instant Search
-- **FR-4.1**: จัดหมวดหมู่เครื่องมือ 7 หมวดหลัก (Multi-location, BGP, Outage, DNS, HTTP/TLS, Local CLI, IX/Peering)
+- **FR-4.1**: จัดหมวดหมู่เครื่องมือ 9 หมวดหลัก (Multi-location, BGP, Outage, DNS, HTTP/TLS, Local CLI, IX/Peering, Submarine Cable, IP Reputation)
 - **FR-4.2**: Full-text Search ค้นหาได้ทั้งจากชื่อเครื่องมือ (Name), คำอธิบาย (Desc), คีย์เวิร์ดเสริม (Keys), และหมวดหมู่ รองรับทั้งภาษาไทยและอังกฤษ
 - **FR-4.3**: ตัวกรองคุณสมบัติเพิ่มเติม (Facet Filters):
   - รองรับ IPv6 (`ip: 'dual'`)

@@ -1,7 +1,7 @@
 # 🤝 HANDOFF — NetOps Toolkit
 
 > **Document Version**: 1.0.0  
-> **Current Software Version**: v1.0.13  
+> **Current Software Version**: v1.0.14  
 > **Repository Type**: Production Static Web Application / PWA  
 > **Target Audience**: Developers, Maintainers, DevOps, Network Leads  
 
@@ -46,20 +46,20 @@ nw_online_tools/
 │                   VERSION SYNCHRONIZATION TRIAD                        │
 ├─────────────────────┬──────────────────────────────────────────────────┤
 │ 1. index.html       │ Query string ท้ายไฟล์:                             │
-│                     │ <link href="css/style.css?v=1.0.13">             │
-│                     │ <script src="js/data.js?v=1.0.13"></script>      │
-│                     │ <script src="js/app.js?v=1.0.13"></script>       │
-│                     │ <script src="js/pwa.js?v=1.0.13"></script>       │
+│                     │ <link href="css/style.css?v=1.0.14">             │
+│                     │ <script src="js/data.js?v=1.0.14"></script>      │
+│                     │ <script src="js/app.js?v=1.0.14"></script>       │
+│                     │ <script src="js/pwa.js?v=1.0.14"></script>       │
 ├─────────────────────┼──────────────────────────────────────────────────┤
 │ 2. sw.js            │ ตัวแปรแคชและรายการไฟล์ใน SHELL:                  │
-│                     │ var CACHE = 'netops-v1.0.13';                    │
-│                     │ './css/style.css?v=1.0.13',                      │
-│                     │ './js/data.js?v=1.0.13',                         │
-│                     │ './js/app.js?v=1.0.13',                          │
-│                     │ './js/pwa.js?v=1.0.13',                          │
+│                     │ var CACHE = 'netops-v1.0.14';                    │
+│                     │ './css/style.css?v=1.0.14',                      │
+│                     │ './js/data.js?v=1.0.14',                         │
+│                     │ './js/app.js?v=1.0.14',                          │
+│                     │ './js/pwa.js?v=1.0.14',                          │
 ├─────────────────────┼──────────────────────────────────────────────────┤
 │ 3. js/data.js       │ Metadata version:                                │
-│                     │ meta: { version: '1.0.13', ... }                 │
+│                     │ meta: { version: '1.0.14', ... }                 │
 └─────────────────────┴──────────────────────────────────────────────────┘
 ```
 
@@ -176,8 +176,8 @@ node tests/data.test.js
 
 **ผลลัพธ์ที่ถูกต้อง**:
 ```
-✓ PASS — 992 การตรวจครบ
-  tools: 33 · categories: 7 · symptoms: 11 · presets: 3 · version: 1.0.13
+✓ PASS — 1279 การตรวจครบ
+  tools: 44 · categories: 9 · symptoms: 11 · presets: 3 · version: 1.0.14
 ```
 
 ### การตรวจสอบ Ban List ผ่าน Command-line

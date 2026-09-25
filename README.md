@@ -4,7 +4,7 @@
 > จัดระเบียบการแก้ไขปัญหาตาม **อาการที่พบจริง (Symptom-First Triage)** พร้อม Decision Flow และ Step-by-Step Playbooks  
 > **Static Web Application 100%** — ใช้งานแบบ Zero-Dependency, เปิดตรงผ่าน `file://` ได้ทันที, รองรับ PWA ใช้งานออฟไลน์ และรับประกัน Console สะอาด 0 Error  
 
-[![Version](https://img.shields.io/badge/version-v1.0.13-2fe0bf.svg)](#)
+[![Version](https://img.shields.io/badge/version-v1.0.14-2fe0bf.svg)](#)
 [![Stack](https://img.shields.io/badge/tech-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-8b5cf6.svg)](#)
 [![PWA](https://img.shields.io/badge/pwa-offline--first-ff6ac2.svg)](#)
 [![Architecture](https://img.shields.io/badge/dependencies-0%20(zero)-brightgreen.svg)](#)
@@ -116,17 +116,19 @@ npx serve .
 
 ## 5. หมวดหมู่และเครื่องมือทั้งหมด (Tool Catalog)
 
-ระบบรวบรวมเครื่องมือ Network Diagnostics รวม **33 เครื่องมือ** จัดแบ่งตาม 7 หมวดหมู่หลัก:
+ระบบรวบรวมเครื่องมือ Network Diagnostics รวม **44 เครื่องมือ** จัดแบ่งตาม 9 หมวดหมู่หลัก:
 
 | # | หมวดหมู่ | คำอธิบายหมวด | เครื่องมือในหมวด |
 |---|---|---|---|
-| 1 | **Multi-location & Latency** | ตรวจวัด Ping, Traceroute, Latency จากหลายประเทศ/ASN พร้อมกัน | Globalping, RIPE Atlas, Ping.pe, Check-Host, Looking.house, bunny.net Tools, Netforge |
-| 2 | **BGP / Routing / ASN** | ตรวจสอบ Control Plane, Origin, AS Path, Routing History, RPKI | BGP.Tools, RIPEstat, Hurricane Electric BGP Toolkit, RouteViews, BGP Glass, PeeringDB |
-| 3 | **Outage & Internet Health** | ติดตามสถานการณ์ Traffic, Outage และความผิดปกติระดับโครงข่าย | Cloudflare Radar |
-| 4 | **DNS & DNSSEC** | ตรวจสอบ Resolution, Delegation, Propagation และ DNSSEC Validation | DNSViz, DNSChecker, IntoDNS |
+| 1 | **Multi-location & Latency** | ตรวจวัด Ping, Traceroute, Latency จากหลายประเทศ/ASN พร้อมกัน | Globalping, RIPE Atlas, Ping.pe, Check-Host, Looking.house, bunny.net Tools, Netforge, NLNOG RING |
+| 2 | **BGP / Routing / ASN** | ตรวจสอบ Control Plane, Origin, AS Path, Routing History, RPKI | BGP.Tools, RIPEstat, Hurricane Electric BGP Toolkit, RouteViews, BGP Glass, PeeringDB, CAIDA AS Rank, NLNOG RING |
+| 3 | **Outage & Internet Health** | ติดตามสถานการณ์ Traffic, Outage และความผิดปกติระดับโครงข่าย | Cloudflare Radar, IODA, ThousandEyes Global Outages |
+| 4 | **DNS & DNSSEC** | ตรวจสอบ Resolution, Delegation, Propagation และ DNSSEC Validation | DNSViz, DNSChecker, IntoDNS, Zonemaster |
 | 5 | **HTTP / TLS / Web Perf** | ตรวจสอบ Web Availability, TTFB, Cipher Suite และ Certificate Chain | SSL Labs, WebPageTest, GlobalPing.Net |
 | 6 | **Local CLI & Packet Analysis** | คำสั่งระดับ Command-Line สำหรับรันบนเซิร์ฟเวอร์หรือเครื่องผู้ใช้ | mtr, dig, curl, openssl s_client, Wireshark/tshark, Zeek, Arkime, tcping, Test-NetConnection |
-| 7 | **IX / Peering** | Looking Glass ประจำชุมสายแลกเปลี่ยนข้อมูล และดัชนีผู้เข้าร่วม | PCH Looking Glass, DE-CIX GlobePEER Looking Glass, Internet Society IXP Tracker, TH-IX PeeringDB |
+| 7 | **IX / Peering** | Looking Glass ประจำชุมสายแลกเปลี่ยนข้อมูล และดัชนีผู้เข้าร่วม | BKNIX, PCH Looking Glass, DE-CIX GlobePEER Looking Glass, Internet Society IXP Tracker, TH-IX PeeringDB, Infrapedia |
+| 8 | **Submarine Cable & Transit** | แผนที่สายเคเบิลใต้น้ำ จุดขึ้นฝั่ง (Landing Station) และเส้นทางทรานซิต | TeleGeography Submarine Cable Map, Infrapedia Global Infrastructure |
+| 9 | **IP Reputation & Blacklist** | ตรวจจับ IP ติดบัญชีดำ, Captcha, Web/Mail Block, SBL/XBL/PBL | Spamhaus, Cisco Talos Intelligence, AbuseIPDB |
 
 ---
 
